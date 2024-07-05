@@ -4,6 +4,11 @@
 
 In today's world, more and more services require email address, using it to gather information, send spam, sell to marketers, and for analytics purposes. Alunea protects your email from being shared with third parties without any negative effects.
 
+# Links
+Backend: https://github.com/white-rabbit-1-sketch/alunea-backend
+
+Frontend: https://github.com/white-rabbit-1-sketch/alunea-frontend
+
 # Hide your email address
 
 Alunea allows you to hide your real email and interact with your contacts using anonymous aliases. All emails sent to your aliases will be automatically delivered to your real inbox.
