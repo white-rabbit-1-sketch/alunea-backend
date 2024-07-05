@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" th:href="@{${frontendHost} + '/assets/img/favicon.png'}">
+    <title th:text="#{template.email.mailbox-email-verification.title}">Mailbox Verification</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #1D2327;
+            color: white;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 50px;
+            background-color: rgb(27, 28, 31);
+            border-radius: 35px;
+        }
+        .logo {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .message {
+            margin-bottom: 20px;
+        }
+        .button {
+            display: block;
+            width: 100%;
+            max-width: 300px;
+            margin: 0 auto;
+            padding: 10px 20px;
+            background-color: rgb(103, 58, 183);
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 24px;
+            text-align: center;
+        }
+        .contact-info {
+            margin-top: 20px;
+            border-top: 1px solid #ccc;
+            padding-top: 20px;
+        }
+
+        .verification-button {
+            margin-top: 50px;
+            margin-bottom: 50px;
+        }
+
+        a {
+            color: rgb(103, 58, 183);
+        }
+
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="logo">
+        <img th:src="@{${frontendHost} + '/assets/img/logo.png'}" alt="Alunea" style="width: 150px;">
+    </div>
+    <h2 th:text="#{template.email.mailbox-email-verification.header}">Mailbox Verification</h2>
+    <p class="message" th:text="#{template.email.greetings}">Dear User,</p>
+    <p class="message" th:text="#{template.email.mailbox-email-verification.instructions}">Please click the button below to verify your mailbox address.</p>
+
+    <a th:href="@{${frontendHost} + '/mailbox-email-verification/?mailbox-email-verification-token=' + ${mailboxEmailVerificationToken}}" class="button verification-button" th:text="#{template.email.mailbox-email-verification.button.verify}">Verify Mailbox</a>
+
+    <div class="contact-info">
+        <br />
+        <font th:text="#{template.email.assist}">If you have any questions or need further assistance, please contact us via</font>
+        <a href="mailto:support@alunea.io">support@alunea.io</a>
+        <br />
+
+        <p>
+            <font th:text="#{template.email.farewell.regards}">Best regards,</font>
+            <br />
+            <font th:text="#{template.email.farewell.team}">Alunea team</font>
+        </p>
+    </div>
+</div>
+</body>
+</html>

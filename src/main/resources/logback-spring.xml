@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+    <include resource="org/springframework/boot/logging/logback/console-appender.xml" />
+
+    <springProperty name="logger.logstash.host" source="logger.logstash.host"/>
+    <springProperty name="logger.sentry.dsn" source="logger.sentry.dsn"/>
+    <springProperty name="logger.sentry.enabled" source="logger.sentry.enabled"/>
+    <springProperty name="logger.logstash.enabled" source="logger.logstash.enabled"/>
+
+    <if condition='${logger.logstash.enabled}'>
+        <then>
+            <appender name="LOGSTASH" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
+                <destination>${logger.logstash.host}</destination>
+                <encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
+                    <providers>
+                        <timestamp>
+                            <timeZone>UTC</timeZone>
+                        </timestamp>
+                        <pattern>
+                            <pattern>
+                                {
+                                "level": "%level",
+                                "pid": "${PID:-}",
+                                "thread": "%thread",
+                                "class": "%logger{40}",
+                                "message": "%message"
+                                }
+                            </pattern>
+                        </pattern>
+                    </providers>
+                </encoder>
+                <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+                    <level>INFO</level>
+                </filter>
+            </appender>
+        </then>
+    </if>
+
+    <if condition='${logger.sentry.enabled}'>
+        <then>
+            <appender name="SENTRY" class="io.sentry.logback.SentryAppender">
+                <options>
+                    <dsn>${logger.sentry.dsn}</dsn>
+                </options>
+                <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+                    <level>ERROR</level>
+                </filter>
+            </appender>
+        </then>
+    </if>
+
+    <if condition='${logger.sentry.enabled}'>
+        <then>
+            <root level="info">
+                <appender-ref ref="CONSOLE" />
+                <appender-ref ref="SENTRY" />
+            </root>
+        </then>
+        <else>
+            <root level="info">
+                <appender-ref ref="CONSOLE" />
+            </root>
+        </else>
+    </if>
+
+    <logger name="me.silvermail" level="debug">
+        <appender-ref ref="LOGSTASH" />
+    </logger>
+</configuration>
